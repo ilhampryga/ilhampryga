@@ -22,11 +22,9 @@
 ## 🧑‍💻 About Me
 
 ```yaml
-Name     : "Your Name"
-Location : "West Java, Indonesia 🇮🇩"
-Focus    : ["IoT", "Embedded Systems", "Web Development"]
-Learning : "Smart Agriculture & Automation"
-Projects : "IoT Drip Irrigation System for Chili Plants 🌶️"
+Name     : "Ilham Adi Prayoga"
+Location : "West Java, Indonesia"
+Focus    : ["IoT", "Data Analytics", "Software Development"]
 Quote    : "Code it. Build it. Ship it."
 ```
 
@@ -72,7 +70,6 @@ Quote    : "Code it. Build it. Ship it."
 <img height="180em" src="https://github-readme-stats.vercel.app/api?username=ilhampryga&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&hide_border=true"/>
 &nbsp;
 <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ilhampryga&layout=compact&langs_count=8&theme=tokyonight&hide_border=true"/>
-
 </div>
 
 <div align="center">
