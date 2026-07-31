@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 200" width="900" height="200" role="presentation">
+  <defs>
+    <linearGradient id="glassBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1220" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#111827" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="glassBorderG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#60A5FA" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="blurGlass" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <linearGradient id="shineG" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="200" rx="20" fill="url(#glassBgGrad)"/>
+  <rect width="900" height="60" rx="20" fill="url(#shineG)"/>
+  <rect width="900" height="200" rx="20" fill="none" stroke="url(#glassBorderG)" stroke-width="1"/>
+</svg>

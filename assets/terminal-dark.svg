@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" width="680" height="420" role="img" aria-label="Interactive Terminal Dark">
+  <defs>
+    <linearGradient id="termBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#0a0d13"/>
+    </linearGradient>
+    <linearGradient id="termHeader" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#161b22"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="termBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#3B82F6" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+    <filter id="termGlow" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="dropShadowTerm" x="-5%" y="-5%" width="115%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="32" flood-color="#2563EB" flood-opacity="0.2"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Main terminal window -->
+  <rect x="0" y="0" width="680" height="420" rx="16" fill="url(#termBg)" filter="url(#dropShadowTerm)"/>
+  <rect x="0" y="0" width="680" height="420" rx="16" fill="none" stroke="url(#termBorder)" stroke-width="1"/>
+
+  <!-- Header bar -->
+  <rect x="0" y="0" width="680" height="44" rx="16" fill="url(#termHeader)"/>
+  <rect x="0" y="28" width="680" height="16" fill="#161b22"/>
+  <line x1="0" y1="44" x2="680" y2="44" stroke="#21262d" stroke-width="1"/>
+
+  <!-- Traffic light buttons -->
+  <circle cx="22" cy="22" r="6" fill="#ff5f57"/>
+  <circle cx="42" cy="22" r="6" fill="#febc2e"/>
+  <circle cx="62" cy="22" r="6" fill="#28c840"/>
+
+  <!-- Terminal title -->
+  <text x="340" y="27" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#484f58" text-anchor="middle" letter-spacing="0.5">terminal — ilhampryga</text>
+
+  <!-- Window controls right side decorations -->
+  <rect x="618" y="16" width="48" height="12" rx="2" fill="#21262d"/>
+
+  <!-- Terminal content -->
+  <!-- Prompt line 1 -->
+  <text x="24" y="78" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#57ab5a" font-weight="600">$</text>
+  <text x="38" y="78" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#6e7681"> ilhampryga</text>
+  <text x="148" y="78" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#539bf5">~</text>
+  <text x="164" y="78" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#c9d1d9"> boot</text>
+
+  <!-- Loading bar animation -->
+  <text x="24" y="102" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#3B82F6">Loading system...</text>
+  <rect x="24" y="112" width="0" height="6" rx="3" fill="url(#barGrad)">
+    <animate attributeName="width" values="0;280;280" dur="2s" fill="freeze" begin="0.5s"/>
+  </rect>
+  <rect x="24" y="112" width="280" height="6" rx="3" fill="#21262d"/>
+  <rect x="24" y="112" width="0" height="6" rx="3" fill="url(#barGrad)">
+    <animate attributeName="width" values="0;280" dur="1.5s" begin="0.3s" fill="freeze"/>
+  </rect>
+  <text x="310" y="120" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="11" fill="#3B82F6">100%</text>
+
+  <!-- Prompt line 2 - whoami -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="2s" fill="freeze"/>
+    <text x="24" y="148" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#57ab5a" font-weight="600">$</text>
+    <text x="38" y="148" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#6e7681"> ilhampryga</text>
+    <text x="148" y="148" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#539bf5">~</text>
+    <text x="164" y="148" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#c9d1d9"> whoami</text>
+    <text x="24" y="168" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="14" fill="#60A5FA" font-weight="700">  Ilham Adi Prayoga</text>
+  </g>
+
+  <!-- Prompt line 3 - role -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="2.8s" fill="freeze"/>
+    <text x="24" y="196" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#57ab5a" font-weight="600">$</text>
+    <text x="38" y="196" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#6e7681"> ilhampryga</text>
+    <text x="148" y="196" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#539bf5">~</text>
+    <text x="164" y="196" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#c9d1d9"> role</text>
+    <text x="24" y="215" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#a5d6ff">  ▸ Software Quality Assurance</text>
+    <text x="24" y="232" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#a5d6ff">  ▸ Data Analyst</text>
+    <text x="24" y="249" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#a5d6ff">  ▸ IoT Developer</text>
+    <text x="24" y="266" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#a5d6ff">  ▸ Web Developer</text>
+  </g>
+
+  <!-- Prompt line 4 - location -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="3.6s" fill="freeze"/>
+    <text x="24" y="294" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#57ab5a" font-weight="600">$</text>
+    <text x="38" y="294" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#6e7681"> ilhampryga</text>
+    <text x="148" y="294" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#539bf5">~</text>
+    <text x="164" y="294" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#c9d1d9"> location</text>
+    <text x="24" y="314" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#a5d6ff">  📍 Indonesia</text>
+  </g>
+
+  <!-- Prompt line 5 - status -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="4.2s" fill="freeze"/>
+    <text x="24" y="342" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#57ab5a" font-weight="600">$</text>
+    <text x="38" y="342" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#6e7681"> ilhampryga</text>
+    <text x="148" y="342" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#539bf5">~</text>
+    <text x="164" y="342" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#c9d1d9"> status</text>
+    <text x="24" y="362" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#28c840" font-weight="600">  ✓ Open To Work · Building awesome software</text>
+  </g>
+
+  <!-- Final prompt with blinking cursor -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="5s" fill="freeze"/>
+    <text x="24" y="394" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#57ab5a" font-weight="600">$</text>
+    <text x="38" y="394" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#6e7681"> ilhampryga</text>
+    <text x="148" y="394" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#539bf5">~</text>
+    <!-- Blinking cursor -->
+    <rect x="164" y="381" width="8" height="15" rx="1" fill="#3B82F6">
+      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+</svg>

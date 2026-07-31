@@ -1,0 +1,129 @@
+name: 🎵 Spotify Now Playing
+
+on:
+  schedule:
+    # Update every 30 minutes
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  spotify:
+    name: Update Spotify Card
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install spotify-web-api-node axios
+        working-directory: /tmp
+
+      - name: Fetch Spotify & Generate SVG
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+        run: |
+          cat << 'EOF' > /tmp/spotify-card.js
+          const axios = require('axios');
+          const fs = require('fs');
+
+          async function getToken() {
+            const creds = Buffer.from(
+              `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+            ).toString('base64');
+            const res = await axios.post(
+              'https://accounts.spotify.com/api/token',
+              'grant_type=refresh_token&refresh_token=' + process.env.SPOTIFY_REFRESH_TOKEN,
+              { headers: { Authorization: `Basic ${creds}`, 'Content-Type': 'application/x-www-form-urlencoded' } }
+            );
+            return res.data.access_token;
+          }
+
+          async function getNowPlaying(token) {
+            try {
+              const res = await axios.get(
+                'https://api.spotify.com/v1/me/player/currently-playing',
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (res.status === 200 && res.data && res.data.item) {
+                return {
+                  isPlaying: res.data.is_playing,
+                  title: res.data.item.name,
+                  artist: res.data.item.artists.map(a => a.name).join(', '),
+                  album: res.data.item.album.name,
+                  url: res.data.item.external_urls.spotify,
+                };
+              }
+            } catch {}
+            return null;
+          }
+
+          function generateSVG(track) {
+            const isPlaying = track && track.isPlaying;
+            const title = track ? track.title.substring(0, 36) : 'Not Playing';
+            const artist = track ? track.artist.substring(0, 40) : '—';
+            const album = track ? track.album.substring(0, 40) : '';
+            const statusColor = isPlaying ? '#1DB954' : '#535353';
+            const statusText = isPlaying ? '▶ Now Playing' : '⏸ Last Played';
+
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 80" width="440" height="80">
+              <defs>
+                <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0d1117"/>
+                  <stop offset="100%" stop-color="#161b22"/>
+                </linearGradient>
+                <linearGradient id="spotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#1DB954"/>
+                  <stop offset="100%" stop-color="#1ed760"/>
+                </linearGradient>
+              </defs>
+              <rect width="440" height="80" rx="12" fill="url(#cardBg)"/>
+              <rect width="440" height="80" rx="12" fill="none" stroke="#21262d" stroke-width="1"/>
+              <!-- Spotify icon -->
+              <circle cx="36" cy="40" r="18" fill="url(#spotGrad)"/>
+              <text x="36" y="46" font-family="system-ui" font-size="18" text-anchor="middle" fill="white">♪</text>
+              <!-- Status -->
+              <text x="66" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="${statusColor}" font-weight="600">${statusText}</text>
+              <!-- Title -->
+              <text x="66" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#f0f6fc" font-weight="700">${title}</text>
+              <!-- Artist -->
+              <text x="66" y="63" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">${artist}</text>
+              <!-- Progress bar (decorative) -->
+              ${isPlaying ? `<rect x="66" y="70" width="290" height="2" rx="1" fill="#21262d"/>
+              <rect x="66" y="70" width="120" height="2" rx="1" fill="url(#spotGrad)"/>` : ''}
+            </svg>`;
+          }
+
+          (async () => {
+            let track = null;
+            try {
+              const token = await getToken();
+              track = await getNowPlaying(token);
+            } catch (e) {
+              console.error('Spotify API error:', e.message);
+            }
+            const svg = generateSVG(track);
+            fs.writeFileSync('assets/spotify.svg', svg);
+            console.log('✓ Spotify card generated');
+          })();
+          EOF
+          node /tmp/spotify-card.js
+
+      - name: Commit Spotify card
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add assets/spotify.svg
+          git diff --staged --quiet || git commit -m "chore: update spotify card [skip ci]"
+          git push
+        continue-on-error: true

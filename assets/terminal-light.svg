@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" width="680" height="420" role="img" aria-label="Interactive Terminal Light">
+  <defs>
+    <linearGradient id="termBgL" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </linearGradient>
+    <linearGradient id="termHeaderL" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="termBorderL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="barGradL" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+    <filter id="dropShadowTermL" x="-5%" y="-5%" width="115%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#2563EB" flood-opacity="0.08"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.05"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="420" rx="16" fill="url(#termBgL)" filter="url(#dropShadowTermL)"/>
+  <rect x="0" y="0" width="680" height="420" rx="16" fill="none" stroke="url(#termBorderL)" stroke-width="1"/>
+
+  <rect x="0" y="0" width="680" height="44" rx="16" fill="url(#termHeaderL)"/>
+  <rect x="0" y="28" width="680" height="16" fill="#e2e8f0"/>
+  <line x1="0" y1="44" x2="680" y2="44" stroke="#cbd5e1" stroke-width="1"/>
+
+  <circle cx="22" cy="22" r="6" fill="#ff5f57"/>
+  <circle cx="42" cy="22" r="6" fill="#febc2e"/>
+  <circle cx="62" cy="22" r="6" fill="#28c840"/>
+
+  <text x="340" y="27" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#94a3b8" text-anchor="middle" letter-spacing="0.5">terminal — ilhampryga</text>
+
+  <!-- Content -->
+  <text x="24" y="78" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#16a34a" font-weight="600">$</text>
+  <text x="38" y="78" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#64748b"> ilhampryga</text>
+  <text x="148" y="78" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#2563EB">~</text>
+  <text x="164" y="78" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#1e293b"> boot</text>
+
+  <text x="24" y="102" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#2563EB">Loading system...</text>
+  <rect x="24" y="112" width="280" height="6" rx="3" fill="#e2e8f0"/>
+  <rect x="24" y="112" width="0" height="6" rx="3" fill="url(#barGradL)">
+    <animate attributeName="width" values="0;280" dur="1.5s" begin="0.3s" fill="freeze"/>
+  </rect>
+  <text x="310" y="120" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="11" fill="#2563EB">100%</text>
+
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="2s" fill="freeze"/>
+    <text x="24" y="148" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#16a34a" font-weight="600">$</text>
+    <text x="38" y="148" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#64748b"> ilhampryga</text>
+    <text x="148" y="148" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#2563EB">~</text>
+    <text x="164" y="148" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#1e293b"> whoami</text>
+    <text x="24" y="168" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="14" fill="#2563EB" font-weight="700">  Ilham Adi Prayoga</text>
+  </g>
+
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="2.8s" fill="freeze"/>
+    <text x="24" y="196" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#16a34a" font-weight="600">$</text>
+    <text x="38" y="196" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#64748b"> ilhampryga</text>
+    <text x="148" y="196" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#2563EB">~</text>
+    <text x="164" y="196" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#1e293b"> role</text>
+    <text x="24" y="215" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#1d4ed8">  ▸ Software Quality Assurance</text>
+    <text x="24" y="232" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#1d4ed8">  ▸ Data Analyst</text>
+    <text x="24" y="249" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#1d4ed8">  ▸ IoT Developer</text>
+    <text x="24" y="266" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#1d4ed8">  ▸ Web Developer</text>
+  </g>
+
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="3.6s" fill="freeze"/>
+    <text x="24" y="294" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#16a34a" font-weight="600">$</text>
+    <text x="38" y="294" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#64748b"> ilhampryga</text>
+    <text x="148" y="294" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#2563EB">~</text>
+    <text x="164" y="294" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#1e293b"> location</text>
+    <text x="24" y="314" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#1d4ed8">  📍 Indonesia</text>
+  </g>
+
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="4.2s" fill="freeze"/>
+    <text x="24" y="342" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#16a34a" font-weight="600">$</text>
+    <text x="38" y="342" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#64748b"> ilhampryga</text>
+    <text x="148" y="342" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#2563EB">~</text>
+    <text x="164" y="342" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#1e293b"> status</text>
+    <text x="24" y="362" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="12" fill="#16a34a" font-weight="600">  ✓ Open To Work · Building awesome software</text>
+  </g>
+
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" dur="0.1s" begin="5s" fill="freeze"/>
+    <text x="24" y="394" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#16a34a" font-weight="600">$</text>
+    <text x="38" y="394" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#64748b"> ilhampryga</text>
+    <text x="148" y="394" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="13" fill="#2563EB">~</text>
+    <rect x="164" y="381" width="8" height="15" rx="1" fill="#2563EB">
+      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+</svg>
