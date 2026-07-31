@@ -133,9 +133,13 @@ The snake workflow is fully automated. It will:
 The metrics workflow generates a comprehensive `assets/metrics.svg` file daily.
 
 **First-time setup:**
-1. Ensure `METRICS_TOKEN` secret is set (PAT with `repo`, `read:user`, `read:org`)
+1. The workflow automatically falls back to `github.token` (built-in) if `METRICS_TOKEN` is not set.
+   - **Without PAT:** Languages, calendar, topics, habits, people, achievements all work.
+   - **With PAT** (`METRICS_TOKEN` with `repo`, `read:user`, `read:org`): unlocks traffic and additional data.
 2. Manually run: **Actions → 📊 GitHub Metrics → Run workflow**
-3. The SVG will be committed to `assets/metrics.svg`
+3. The SVG will be auto-committed to `assets/metrics.svg` via `output_action: commit`
+
+> **Note:** `output_action: commit` means no manual `git push` step is needed — the action commits the SVG directly.
 
 ---
 

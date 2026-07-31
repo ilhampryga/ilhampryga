@@ -16,108 +16,198 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: |
-          npm install spotify-web-api-node axios
-        working-directory: /tmp
-
+      # ─────────────────────────────────────────────────────
+      # Try to fetch the actual currently-playing track.
+      # If Spotify secrets are not configured, or nothing is
+      # playing, we fall back to a rotating Oasis playlist.
+      # No npm / external packages needed — pure curl + node.
+      # ─────────────────────────────────────────────────────
       - name: Fetch Spotify & Generate SVG
         env:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
           SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
         run: |
-          cat << 'EOF' > /tmp/spotify-card.js
-          const axios = require('axios');
-          const fs = require('fs');
+          node - << 'NODESCRIPT'
+          const https = require('https');
+          const fs   = require('fs');
 
-          async function getToken() {
-            const creds = Buffer.from(
-              `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
-            ).toString('base64');
-            const res = await axios.post(
-              'https://accounts.spotify.com/api/token',
-              'grant_type=refresh_token&refresh_token=' + process.env.SPOTIFY_REFRESH_TOKEN,
-              { headers: { Authorization: `Basic ${creds}`, 'Content-Type': 'application/x-www-form-urlencoded' } }
-            );
-            return res.data.access_token;
+          // ── helpers ───────────────────────────────────────
+          function httpsPost(hostname, path, headers, body) {
+            return new Promise((resolve, reject) => {
+              const req = https.request({ hostname, path, method: 'POST', headers }, res => {
+                let data = '';
+                res.on('data', c => data += c);
+                res.on('end', () => resolve({ status: res.statusCode, body: data }));
+              });
+              req.on('error', reject);
+              req.write(body);
+              req.end();
+            });
           }
 
-          async function getNowPlaying(token) {
-            try {
-              const res = await axios.get(
-                'https://api.spotify.com/v1/me/player/currently-playing',
-                { headers: { Authorization: `Bearer ${token}` } }
-              );
-              if (res.status === 200 && res.data && res.data.item) {
-                return {
-                  isPlaying: res.data.is_playing,
-                  title: res.data.item.name,
-                  artist: res.data.item.artists.map(a => a.name).join(', '),
-                  album: res.data.item.album.name,
-                  url: res.data.item.external_urls.spotify,
-                };
-              }
-            } catch {}
-            return null;
+          function httpsGet(hostname, path, headers) {
+            return new Promise((resolve, reject) => {
+              const req = https.request({ hostname, path, method: 'GET', headers }, res => {
+                let data = '';
+                res.on('data', c => data += c);
+                res.on('end', () => resolve({ status: res.statusCode, body: data }));
+              });
+              req.on('error', reject);
+              req.end();
+            });
           }
 
-          function generateSVG(track) {
-            const isPlaying = track && track.isPlaying;
-            const title = track ? track.title.substring(0, 36) : 'Not Playing';
-            const artist = track ? track.artist.substring(0, 40) : '—';
-            const album = track ? track.album.substring(0, 40) : '';
-            const statusColor = isPlaying ? '#1DB954' : '#535353';
-            const statusText = isPlaying ? '▶ Now Playing' : '⏸ Last Played';
+          // ── Oasis fallback playlist ───────────────────────
+          const oasisPlaylist = [
+            { title: "Whatever",    artist: "Oasis", album: "(What's the Story) Morning Glory?", progress: 72 },
+            { title: "Slide Away",  artist: "Oasis", album: "Definitely Maybe",                  progress: 55 },
+            { title: "Live Forever",artist: "Oasis", album: "Definitely Maybe",                  progress: 40 },
+            { title: "Wonderwall",  artist: "Oasis", album: "(What's the Story) Morning Glory?", progress: 63 },
+            { title: "Champagne Supernova", artist: "Oasis", album: "(What's the Story) Morning Glory?", progress: 48 },
+          ];
 
-            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 80" width="440" height="80">
+          // Rotate based on current half-hour slot so it changes every run
+          const slotIndex = Math.floor(Date.now() / (30 * 60 * 1000)) % oasisPlaylist.length;
+          const fallback  = oasisPlaylist[slotIndex];
+
+          // ── SVG generator ────────────────────────────────
+          function esc(str) {
+            return String(str)
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;');
+          }
+
+          function generateSVG(title, artist, album, progressPct, isLive) {
+            const t    = esc(title.substring(0, 34));
+            const ar   = esc(artist.substring(0, 42));
+            const al   = esc(album.substring(0, 42));
+            const pBar = Math.min(100, Math.max(0, progressPct));
+            const pW   = Math.round(pBar * 2.84); // 284px full width bar
+            const statusLabel = isLive ? '▶ Now Playing' : '♫ Featured Track';
+            const statusColor = isLive ? '#1DB954'       : '#3B82F6';
+
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 88" width="450" height="88" role="img" aria-label="${t} — ${ar}">
               <defs>
-                <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#0d1117"/>
+                <linearGradient id="cBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%"   stop-color="#0d1117"/>
                   <stop offset="100%" stop-color="#161b22"/>
                 </linearGradient>
-                <linearGradient id="spotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#1DB954"/>
+                <linearGradient id="pGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stop-color="#1DB954"/>
                   <stop offset="100%" stop-color="#1ed760"/>
                 </linearGradient>
+                <linearGradient id="spotG" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%"   stop-color="#1DB954"/>
+                  <stop offset="100%" stop-color="#158a3e"/>
+                </linearGradient>
+                <clipPath id="cardClip">
+                  <rect width="450" height="88" rx="14"/>
+                </clipPath>
               </defs>
-              <rect width="440" height="80" rx="12" fill="url(#cardBg)"/>
-              <rect width="440" height="80" rx="12" fill="none" stroke="#21262d" stroke-width="1"/>
-              <!-- Spotify icon -->
-              <circle cx="36" cy="40" r="18" fill="url(#spotGrad)"/>
-              <text x="36" y="46" font-family="system-ui" font-size="18" text-anchor="middle" fill="white">♪</text>
-              <!-- Status -->
-              <text x="66" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="${statusColor}" font-weight="600">${statusText}</text>
-              <!-- Title -->
-              <text x="66" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#f0f6fc" font-weight="700">${title}</text>
+              <!-- Card background -->
+              <rect width="450" height="88" rx="14" fill="url(#cBg)" clip-path="url(#cardClip)"/>
+              <rect width="450" height="88" rx="14" fill="none" stroke="#30363d" stroke-width="1"/>
+              <!-- Spotify circle icon -->
+              <circle cx="44" cy="44" r="22" fill="url(#spotG)"/>
+              <!-- Music note -->
+              <text x="44" y="50" font-family="system-ui,sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="white">♪</text>
+              <!-- Animated equalizer bars (only when live) -->
+              ${isLive ? `
+              <rect x="38" y="63" width="3" height="6" rx="1" fill="white" opacity="0.7">
+                <animate attributeName="height" values="6;10;4;8;6" dur="0.8s" repeatCount="indefinite"/>
+                <animate attributeName="y"      values="63;59;65;61;63" dur="0.8s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="43" y="61" width="3" height="8" rx="1" fill="white" opacity="0.7">
+                <animate attributeName="height" values="8;4;12;6;8" dur="0.6s" repeatCount="indefinite"/>
+                <animate attributeName="y"      values="61;65;57;63;61" dur="0.6s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="48" y="64" width="3" height="5" rx="1" fill="white" opacity="0.7">
+                <animate attributeName="height" values="5;9;3;7;5" dur="1s" repeatCount="indefinite"/>
+                <animate attributeName="y"      values="64;60;66;62;64" dur="1s" repeatCount="indefinite"/>
+              </rect>` : ''}
+              <!-- Status label -->
+              <text x="78" y="22" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="${statusColor}" font-weight="700" letter-spacing="0.5">${statusLabel}</text>
+              <!-- Song title -->
+              <text x="78" y="44" font-family="system-ui,-apple-system,sans-serif" font-size="15" fill="#f0f6fc" font-weight="700">${t}</text>
               <!-- Artist -->
-              <text x="66" y="63" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">${artist}</text>
-              <!-- Progress bar (decorative) -->
-              ${isPlaying ? `<rect x="66" y="70" width="290" height="2" rx="1" fill="#21262d"/>
-              <rect x="66" y="70" width="120" height="2" rx="1" fill="url(#spotGrad)"/>` : ''}
+              <text x="78" y="61" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#8b949e">${ar}</text>
+              <!-- Album (small) -->
+              <text x="78" y="76" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#484f58">${al}</text>
+              <!-- Progress bar bg -->
+              <rect x="78" y="82" width="284" height="3" rx="1.5" fill="#21262d"/>
+              <!-- Progress fill -->
+              <rect x="78" y="82" width="${pW}" height="3" rx="1.5" fill="url(#pGrad)"/>
+              <!-- Progress dot -->
+              <circle cx="${78 + pW}" cy="83.5" r="4" fill="#1DB954"/>
+              <!-- Time stamps -->
+              <text x="370" y="86" font-family="system-ui,sans-serif" font-size="9" fill="#484f58" text-anchor="middle">${Math.round(pBar)}%</text>
             </svg>`;
           }
 
+          // ── Main logic ────────────────────────────────────
           (async () => {
-            let track = null;
-            try {
-              const token = await getToken();
-              track = await getNowPlaying(token);
-            } catch (e) {
-              console.error('Spotify API error:', e.message);
+            const cId  = process.env.SPOTIFY_CLIENT_ID     || '';
+            const cSec = process.env.SPOTIFY_CLIENT_SECRET || '';
+            const rTok = process.env.SPOTIFY_REFRESH_TOKEN || '';
+
+            let title, artist, album, progressPct = 50, isLive = false;
+
+            // Only attempt live fetch when all secrets are present
+            if (cId && cSec && rTok) {
+              try {
+                const creds    = Buffer.from(`${cId}:${cSec}`).toString('base64');
+                const tokenRes = await httpsPost(
+                  'accounts.spotify.com',
+                  '/api/token',
+                  { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+                  `grant_type=refresh_token&refresh_token=${encodeURIComponent(rTok)}`
+                );
+                const tokenData = JSON.parse(tokenRes.body);
+                const token     = tokenData.access_token;
+
+                if (token) {
+                  const npRes = await httpsGet(
+                    'api.spotify.com',
+                    '/v1/me/player/currently-playing',
+                    { 'Authorization': `Bearer ${token}` }
+                  );
+                  if (npRes.status === 200 && npRes.body) {
+                    const np = JSON.parse(npRes.body);
+                    if (np && np.item) {
+                      title       = np.item.name;
+                      artist      = np.item.artists.map(a => a.name).join(', ');
+                      album       = np.item.album.name;
+                      progressPct = np.progress_ms && np.item.duration_ms
+                        ? Math.round((np.progress_ms / np.item.duration_ms) * 100)
+                        : 50;
+                      isLive = np.is_playing;
+                    }
+                  }
+                }
+              } catch (e) {
+                console.error('Spotify API error:', e.message);
+              }
             }
-            const svg = generateSVG(track);
+
+            // Fall back to Oasis playlist if no live track
+            if (!title) {
+              title       = fallback.title;
+              artist      = fallback.artist;
+              album       = fallback.album;
+              progressPct = fallback.progress;
+              isLive      = false;
+              console.log(`Using Oasis fallback: ${title}`);
+            }
+
+            const svg = generateSVG(title, artist, album, progressPct, isLive);
+            fs.mkdirSync('assets', { recursive: true });
             fs.writeFileSync('assets/spotify.svg', svg);
-            console.log('✓ Spotify card generated');
+            console.log(`✓ Spotify card written — "${title}" by ${artist}`);
           })();
-          EOF
-          node /tmp/spotify-card.js
+          NODESCRIPT
 
       - name: Commit Spotify card
         run: |

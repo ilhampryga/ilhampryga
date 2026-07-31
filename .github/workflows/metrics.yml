@@ -16,77 +16,59 @@ jobs:
     timeout-minutes: 15
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Metrics — Full Profile
         uses: lowlighter/metrics@latest
         with:
-          # Token & target
-          token: ${{ secrets.METRICS_TOKEN }}
+          # Use METRICS_TOKEN if set, otherwise fall back to the built-in GITHUB_TOKEN
+          token: ${{ secrets.METRICS_TOKEN != '' && secrets.METRICS_TOKEN || github.token }}
           user: ilhampryga
           template: classic
           base: header, activity, community, repositories, metadata
 
-          # Output settings
+          # Output — commit directly into the repo
+          output_action: commit
+          committer_token: ${{ secrets.METRICS_TOKEN != '' && secrets.METRICS_TOKEN || github.token }}
           filename: assets/metrics.svg
           config_timezone: Asia/Jakarta
           config_display: large
           config_animations: yes
 
-          # Plugins
-          plugin_isocalendar: yes
-          plugin_isocalendar_duration: half-year
-
+          # Languages plugin
           plugin_languages: yes
           plugin_languages_analysis_timeout: 15
           plugin_languages_categories: markup, programming
           plugin_languages_colors: github
           plugin_languages_limit: 8
-          plugin_languages_recent_categories: markup, programming
-          plugin_languages_recent_days: 14
-          plugin_languages_recent_load: 300
           plugin_languages_sections: most-used
           plugin_languages_threshold: 0%
 
-          plugin_stars: yes
-          plugin_stars_limit: 4
+          # Calendar heatmap
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: half-year
 
-          plugin_habits: yes
-          plugin_habits_days: 14
-          plugin_habits_facts: yes
-          plugin_habits_from: 200
-
-          plugin_traffic: yes
-
+          # Starred topics
           plugin_topics: yes
           plugin_topics_limit: 15
           plugin_topics_mode: starred
           plugin_topics_sort: stars
 
-          plugin_reactions: yes
-          plugin_reactions_display: absolute
-          plugin_reactions_limit: 200
-          plugin_reactions_limit_issues: 100
-          plugin_reactions_limit_discussions: 100
-          plugin_reactions_limit_discussions_comments: 100
+          # Habits & coding schedule
+          plugin_habits: yes
+          plugin_habits_days: 14
+          plugin_habits_facts: yes
+          plugin_habits_from: 200
 
+          # Followers / following avatars
           plugin_people: yes
           plugin_people_limit: 24
           plugin_people_size: 28
           plugin_people_types: followers, following
 
+          # Achievements
           plugin_achievements: yes
           plugin_achievements_display: compact
           plugin_achievements_secrets: yes
           plugin_achievements_threshold: C
-
-          plugin_notable: yes
-          plugin_notable_from: organization
-          plugin_notable_types: commit
-
-      - name: Commit metrics
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update metrics [skip ci]"
-          git push
-        continue-on-error: true

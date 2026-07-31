@@ -23,8 +23,6 @@ jobs:
         with:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          REPOSITORY: ilhampryga/ilhampryga
-          BRANCH_NAME: main
           SHOW_OS: true
           SHOW_EDITORS: true
           SHOW_PROJECTS: true
@@ -37,7 +35,7 @@ jobs:
           SHOW_SHORT_INFO: true
           SHOW_LOC_CHART: false
           SHOW_PROFILE_VIEWS: true
+          SHOW_UPDATED_DATE: true
           SYMBOL_VERSION: 1
-          TIME_RANGE: last_7_days
           COMMIT_BY_ME: false
           LOCALE: en

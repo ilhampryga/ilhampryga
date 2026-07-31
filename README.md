@@ -248,173 +248,6 @@ Developing edge computing solutions using ESP8266/Arduino with real-time Firebas
 <br/>
 
 <!-- ═══════════════════════════════════════════════ -->
-<!--             FEATURED PROJECTS                   -->
-<!-- ═══════════════════════════════════════════════ -->
-
-<div align="center">
-
-## `$ git log --oneline --projects`
-
-</div>
-
-<br/>
-
-<table align="center" border="0" cellspacing="0" cellpadding="16">
-
-<!-- Row 1 -->
-<tr>
-
-<td width="50%" valign="top">
-
-### 🐓 &nbsp;Smart Coop
-
-> **IoT-Powered Poultry Farm Monitoring System**
-
-A full-stack IoT solution for automated poultry farm management. Monitors temperature, humidity, ammonia, water levels, and fire detection in real-time.
-
-**Stack:**
-`Flutter` `Firebase` `ESP8266` `Arduino` `Dart`
-
-**Highlights:**
-- 🌡️ Real-time sensor monitoring dashboard
-- 🔔 TTS push notifications for critical alerts
-- 📈 Historical analytics with charts
-- 🔒 Firebase Auth + Realtime Database
-- 📱 Cross-platform mobile app
-
-<br/>
-
-[![View Project](https://img.shields.io/badge/View_Project-2563EB?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ilhampryga/smart_drip)
-&nbsp;
-![Status](https://img.shields.io/badge/Status-Production-22c55e?style=flat-square)
-
-</td>
-
-<td width="50%" valign="top">
-
-### 🌐 &nbsp;Portfolio Website
-
-> **Modern Personal Portfolio & Showcase**
-
-A Cloudflare Pages-hosted portfolio featuring smooth animations, dark/light mode, multilingual support, and project showcasing.
-
-**Stack:**
-`HTML5` `CSS3` `JavaScript` `Cloudflare Pages`
-
-**Highlights:**
-- ✨ Glassmorphism + micro-animations
-- 🌍 i18n (Indonesian & English)
-- 📜 Certificate gallery with filters
-- 📱 Fully responsive design
-- ⚡ 100/100 Lighthouse score
-
-<br/>
-
-[![Visit Site](https://img.shields.io/badge/Visit_Site-2563EB?style=for-the-badge&logo=vercel&logoColor=white)](https://ilhampryga.pages.dev)
-&nbsp;
-![Status](https://img.shields.io/badge/Status-Live-22c55e?style=flat-square)
-
-</td>
-
-</tr>
-
-<!-- Row 2 -->
-<tr>
-
-<td width="50%" valign="top">
-
-### 🔍 &nbsp;Job Scraper
-
-> **Automated Job Market Intelligence Tool**
-
-Python-powered web scraper that aggregates job postings from multiple Indonesian job boards, filters by criteria, and exports to structured formats.
-
-**Stack:**
-`Python` `BeautifulSoup` `Selenium` `Pandas` `SQLite`
-
-**Highlights:**
-- 🕷️ Multi-source scraping engine
-- 📊 Data cleaning & normalization
-- 💾 SQLite + CSV export
-- ⏰ Scheduled via cron/GitHub Actions
-- 📧 Email digest automation
-
-<br/>
-
-[![View Code](https://img.shields.io/badge/View_Code-2563EB?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ilhampryga)
-&nbsp;
-![Status](https://img.shields.io/badge/Status-Active-3B82F6?style=flat-square)
-
-</td>
-
-<td width="50%" valign="top">
-
-### 📊 &nbsp;Data Analytics Dashboard
-
-> **Interactive Business Intelligence Platform**
-
-End-to-end data pipeline from raw CSV/Excel data to interactive Plotly dashboards with KPI tracking and trend analysis.
-
-**Stack:**
-`Python` `Pandas` `Plotly` `Streamlit` `PostgreSQL`
-
-**Highlights:**
-- 📈 Interactive Plotly charts
-- 🔄 Automated ETL pipeline
-- 📦 KPI cards & trend analysis
-- 🗃️ PostgreSQL data warehouse
-- 🚀 Deployed on Streamlit Cloud
-
-<br/>
-
-[![View Dashboard](https://img.shields.io/badge/View_Dashboard-2563EB?style=for-the-badge&logo=plotly&logoColor=white)](https://github.com/ilhampryga)
-&nbsp;
-![Status](https://img.shields.io/badge/Status-Active-3B82F6?style=flat-square)
-
-</td>
-
-</tr>
-
-<!-- Row 3 -->
-<tr>
-<td colspan="2" align="center" valign="top">
-
-### 🧪 &nbsp;Automation Testing Suite
-
-> **End-to-End QA Automation Framework**
-
-Production-grade test automation framework built with Selenium WebDriver + Pytest, covering web UI, API, and integration testing scenarios.
-
-**Stack:**
-`Python` `Selenium` `Pytest` `Allure` `GitHub Actions` `Postman`
-
-**Highlights:**
-- 🤖 Page Object Model architecture
-- 📋 Allure HTML test reports
-- 🔗 API testing with requests library
-- ⚙️ CI/CD integration via GitHub Actions
-- 📸 Screenshot on failure capture
-
-<br/>
-
-[![View Framework](https://img.shields.io/badge/View_Framework-2563EB?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ilhampryga)
-&nbsp;
-![Status](https://img.shields.io/badge/Status-Active-3B82F6?style=flat-square)
-
-</td>
-</tr>
-
-</table>
-
-<br/>
-
-<picture>
-  <img alt="" src="https://raw.githubusercontent.com/ilhampryga/ilhampryga/main/assets/divider.svg" width="100%"/>
-</picture>
-
-<br/>
-
-<!-- ═══════════════════════════════════════════════ -->
 <!--              GITHUB DASHBOARD                   -->
 <!-- ═══════════════════════════════════════════════ -->
 
@@ -427,17 +260,17 @@ Production-grade test automation framework built with Selenium WebDriver + Pytes
 <table border="0" cellspacing="8" cellpadding="0">
 <tr>
 <td align="center">
-  <img height="180" src="https://github-readme-stats.vercel.app/api?username=ilhampryga&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=3B82F6&icon_color=60A5FA&text_color=e2e8f0&ring_color=2563EB&rank_icon=github&include_all_commits=true&count_private=true" alt="GitHub Stats"/>
+  <img height="180" src="https://github-readme-stats.vercel.app/api?username=ilhampryga&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=3B82F6&icon_color=60A5FA&text_color=e2e8f0&ring_color=2563EB&rank_icon=github&include_all_commits=true&cache_seconds=86400&show=reviews,discussions_started" alt="GitHub Stats"/>
 </td>
 <td align="center">
-  <img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ilhampryga&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=3B82F6&text_color=e2e8f0&langs_count=8" alt="Top Languages"/>
+  <img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ilhampryga&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=3B82F6&text_color=e2e8f0&langs_count=8&cache_seconds=86400" alt="Top Languages"/>
 </td>
 </tr>
 </table>
 
 <br/>
 
-<img src="https://streak-stats.demolab.com?user=ilhampryga&theme=github-dark-blue&hide_border=true&background=0d1117&ring=3B82F6&fire=60A5FA&currStreakLabel=3B82F6&sideLabels=94a3b8&dates=475569&sideNums=e2e8f0&currStreakNum=60A5FA" alt="GitHub Streak" height="160"/>
+<img src="https://github-readme-streak-stats.herokuapp.com?user=ilhampryga&theme=dark&hide_border=true&background=0d1117&ring=3B82F6&fire=60A5FA&currStreakLabel=3B82F6&sideLabels=94a3b8&dates=475569&sideNums=e2e8f0&currStreakNum=60A5FA&stroke=0d1117" alt="GitHub Streak" height="160"/>
 
 </div>
 
@@ -481,7 +314,9 @@ Production-grade test automation framework built with Selenium WebDriver + Pytes
 
 <br/>
 
-<img src="https://raw.githubusercontent.com/ilhampryga/ilhampryga/main/assets/metrics.svg" alt="Full Metrics" width="860"/>
+<!-- metrics.svg is auto-generated by the 📊 GitHub Metrics workflow.
+     Run the workflow manually once from the Actions tab to generate it. -->
+<img src="https://raw.githubusercontent.com/ilhampryga/ilhampryga/main/assets/metrics.svg" alt="Full Metrics" width="860" onerror="this.style.display='none'"/>
 
 </div>
 
